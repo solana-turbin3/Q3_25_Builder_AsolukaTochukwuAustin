@@ -9,19 +9,19 @@ const keypair = Keypair.fromSecretKey(new Uint8Array(wallet));
 const commitment: Commitment = "confirmed";
 const connection = new Connection("https://api.devnet.solana.com", commitment);
 
-const token_decimals = 1_000_000n;
+const token_decimals = 1_000_000;
 
 // Mint address
-const mint = new PublicKey("HNVFaEgSi4A65dRynkF8GKALDnGwdC9RwUBshGdz43dX");
+const mint = new PublicKey("GG6JERkH8t8Wcmt6vjH3mCB8vz8fwv4r52vrLwSUGgws");
 
 (async () => {
     try {
         // Create an ATA
-        const ata = await getOrCreateAssociatedTokenAccount(connection, keypair, mint, keypair.publicKey, true, commitment)
+        const ata = await getOrCreateAssociatedTokenAccount(connection, keypair, mint, keypair.publicKey)
         console.log(`Your ata is: ${ata.address.toBase58()}`);
 
         // Mint to ATA
-        const mintTx = await mintTo(connection, keypair, mint, ata.address, keypair.publicKey, 1n * token_decimals)
+        const mintTx = await mintTo(connection, keypair, mint, ata.address, keypair.publicKey, 100*token_decimals)
         console.log(`Your mint txid: ${mintTx}`);
     } catch(error) {
         console.log(`Oops, something went wrong: ${error}`)

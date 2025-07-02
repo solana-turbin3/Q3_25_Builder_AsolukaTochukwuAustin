@@ -10,7 +10,7 @@ import { createSignerFromKeypair, signerIdentity, publicKey } from "@metaplex-fo
 import { bs58 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
 
 // Define our Mint address
-const mint = publicKey("FYcfTjWzKXgauhXyKKxqmEAbL7Va8ZcnttNNBLCCdQHp")
+const mint = publicKey("GG6JERkH8t8Wcmt6vjH3mCB8vz8fwv4r52vrLwSUGgws")
 
 // Create a UMI connection
 const umi = createUmi('https://api.devnet.solana.com');
@@ -27,11 +27,17 @@ umi.use(signerIdentity(createSignerFromKeypair(umi, keypair)));
         }
 
         let data: DataV2Args = {
-            name: "SIR TOCHI NAIM GET MOTO",
-            symbol: "SIRTOCHI",
-            uri: "https://res.cloudinary.com/sleekcodes/image/upload/v1751408989/4A45N3VS4JG67MLB4WKNNWNZOY_1_sejyzr.jpg",
+            name: "SIRTOCHI",
+            symbol: "SIRT",
+            uri: "https://asoluka.github.io/sirtochi-metadata/sirtochi-metaplex.json",
             sellerFeeBasisPoints: 500,
-            creators: null,
+            creators: [
+                {
+                    address: keypair.publicKey,
+                    verified: true,
+                    share: 100,
+                },
+            ],
             collection: null,
             uses: null
         }
