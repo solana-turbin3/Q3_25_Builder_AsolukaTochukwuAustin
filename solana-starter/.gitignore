@@ -2,3 +2,10 @@
 node_modules
 target
 .DS_Store
+
+.anchor
+*.anchor
+**/*.anchor
+**/*.rs.bk
+test-ledger
+.yarn
