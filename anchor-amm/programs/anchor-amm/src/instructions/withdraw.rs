@@ -22,10 +22,10 @@ pub struct Withdraw<'info> {
         has_one = mint_x,
         has_one = mint_y,
         seeds = [
-            b"config", 
+            b"config",
             mint_x.key().to_bytes().as_ref(),
             mint_y.key().to_bytes().as_ref(),
-            config.seed.to_le_bytes().as_ref()    
+            config.seed.to_le_bytes().as_ref()
         ],
         bump = config.config_bump,
     )]
@@ -37,7 +37,7 @@ pub struct Withdraw<'info> {
         mint::authority = config
     )]
 
-    pub mint_lp: InterfaceAccount<'info, Mint>, 
+    pub mint_lp: InterfaceAccount<'info, Mint>,
     #[account(
         mut,
         associated_token::mint = mint_x,
@@ -82,8 +82,9 @@ pub struct Withdraw<'info> {
 
 impl<'info> Withdraw<'info> {
     pub fn withdraw(&mut self, lp_amount: u64, min_x: u64, min_y: u64) -> Result<()> {
-        require!(lp_amount > 0, AmmError::InvalidAmount);
         require!(!self.config.locked, AmmError::PoolLocked);
+        require!(lp_amount > 0, AmmError::InvalidAmount);
+        require!(min_x > 0 || min_y > 0, AmmError::InvalidAmount);
 
         let xy_amount = ConstantProduct::xy_withdraw_amounts_from_l(
             self.vault_x.amount,
