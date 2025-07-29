@@ -1,7 +1,9 @@
 use anchor_lang::prelude::*;
-use anchor_spl::associated_token::AssociatedToken;
-use anchor_spl::token::{burn, transfer_checked, Burn, TransferChecked};
-use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
+use anchor_spl::{
+    associated_token::AssociatedToken,
+    token::{burn, transfer_checked, Burn, TransferChecked},
+    token_interface::{Mint, TokenAccount, TokenInterface}
+};
 
 use constant_product_curve::ConstantProduct;
 

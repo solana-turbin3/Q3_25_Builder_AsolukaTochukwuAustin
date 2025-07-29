@@ -74,8 +74,8 @@ pub struct SwapArgs {
 
 impl<'info> Swap<'info> {
     pub fn swap(&mut self, args: SwapArgs) -> Result<()> {
-        require!(args.amount > 0, AmmError::InvalidAmount);
         require!(self.config.locked == false, AmmError::PoolLocked);
+        require!(args.amount > 0, AmmError::InvalidAmount);
 
         let mut curve = ConstantProduct::init(
             self.vault_x.amount,
@@ -83,7 +83,7 @@ impl<'info> Swap<'info> {
             self.mint_lp.supply,
             self.config.fee,
             None,
-        ).unwrap();
+        ).map_err(AmmError::from)?;
 
         let p = match args.is_x {
             true => LiquidityPair::X,
@@ -111,7 +111,7 @@ impl<'info> Swap<'info> {
     fn transfer_to_vault(&mut self, args: SwapArgs, res: SwapResult) -> Result<()> {
         let cpi_program = self.token_program.to_account_info();
 
-        let (cpi_accounts, mint_decimaks) = match args.is_x {
+        let (cpi_accounts, mint_decimals) = match args.is_x {
             true => ( TransferChecked {
                 from: self.user_ata_x.to_account_info(),
                 mint: self.mint_x.to_account_info(),
@@ -128,7 +128,7 @@ impl<'info> Swap<'info> {
 
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
 
-        transfer_checked(cpi_ctx, res.deposit, mint_decimaks)?;
+        transfer_checked(cpi_ctx, res.deposit, mint_decimals)?;
 
         Ok(())
     }
