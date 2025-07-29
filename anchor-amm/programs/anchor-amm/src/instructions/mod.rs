@@ -8,4 +8,6 @@ pub mod withdraw;
 pub use withdraw::*;
 
 pub mod swap;
+mod update_locked;
+
 pub use swap::*;
