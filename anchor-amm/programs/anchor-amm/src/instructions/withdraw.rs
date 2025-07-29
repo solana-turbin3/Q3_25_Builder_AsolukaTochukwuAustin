@@ -94,8 +94,8 @@ impl<'info> Withdraw<'info> {
             6,
         ).unwrap();
 
-        require!(min_x <= xy_amount.x, AmmError::InsufficientBalance);
-        require!(min_y <= xy_amount.y, AmmError::InsufficientBalance);
+        require!(min_x <= xy_amount.x, AmmError::SlippageExceeded);
+        require!(min_y <= xy_amount.y, AmmError::SlippageExceeded);
 
         self.withdraw_tokens(true, xy_amount.x)?;
         self.withdraw_tokens(false, xy_amount.y)?;
